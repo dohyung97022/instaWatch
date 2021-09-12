@@ -14,4 +14,8 @@ engine = create_engine(
 
 session = sessionmaker(engine)()
 Base = declarative_base()
-Base.metadata.create_all(engine)
+
+
+def init_setup():
+    from .model import action, event, event_action
+    Base.metadata.create_all(engine)
