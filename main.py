@@ -1,3 +1,5 @@
-from modules.SQLAlchemy.sql_alchemy import *
+from modules.SQLAlchemy import sql_alchemy
+from states import states_runner
 
-init_setup()
+sql_alchemy.init_setup()
+states_runner.run()
