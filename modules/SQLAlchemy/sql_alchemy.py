@@ -17,5 +17,5 @@ Base = declarative_base()
 
 
 def init_setup():
-    from .model import action, event, event_action
+    from .model import action, event, event_action, trigger
     Base.metadata.create_all(engine)
