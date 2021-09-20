@@ -1,8 +1,12 @@
-from subprocess import Popen, call
+from subprocess import Popen, call, PIPE
 
 
 def start(cmd: list[str]) -> Popen:
-    return Popen(cmd)
+    return Popen(cmd, stdout=PIPE, stderr=PIPE)
+
+
+def read(subprocess: Popen) -> str:
+    return subprocess.stdout.readline().decode('utf-8').strip()
 
 
 def kill(subprocess: Popen):
