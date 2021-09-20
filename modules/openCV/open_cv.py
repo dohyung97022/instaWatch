@@ -5,8 +5,8 @@ from .classes.point import Point
 DETECT_DEFAULT_THRESHOLD = 0.9
 
 
-# 찾은 이미지들의 좌측 상단 포인트를 돌려줍니다.
-def detect(detect_img_path: list, from_img_path: str, threshold=DETECT_DEFAULT_THRESHOLD):
+# 찾은 이미지들의 상하좌우 포인트를 돌려줍니다.
+def detect(detect_img_path: list[str], from_img_path: str, threshold: float = DETECT_DEFAULT_THRESHOLD) -> list[Point]:
     img_rgb = cv2.imread(from_img_path)
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(detect_img_path, 0)

@@ -19,5 +19,6 @@ class Action(Base):
     type = Column(Enum(Type))
     events = relationship('Event', secondary=event_action, back_populates='actions')
 
-    def __init__(self, name):
+    def __init__(self, name: str, type: Type):
         self.name = name
+        self.type = type
