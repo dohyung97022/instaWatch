@@ -113,6 +113,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# Pem
+.pem
+pem/
+
 # Spyder project settings
 .spyderproject
 .spyproject
