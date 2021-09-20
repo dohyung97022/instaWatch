@@ -12,5 +12,9 @@ class Trigger(Base):
     relative_h = Column(Integer)
     event_id = Column(Integer, ForeignKey('event.id'))
 
-    def __init__(self, url):
+    def __init__(self, url: str, relative_x: int, relative_y: int, relative_w: int, relative_h: int):
         self.url = url
+        self.relative_x = relative_x
+        self.relative_y = relative_y
+        self.relative_w = relative_w
+        self.relative_h = relative_h

@@ -12,5 +12,6 @@ class Event(Base):
     triggers = relationship("Trigger")
     actions = relationship('Action', secondary=event_action, back_populates='events')
 
-    def __init__(self, name):
+    def __init__(self, name: str, weight: int):
         self.name = name
+        self.weight = weight
