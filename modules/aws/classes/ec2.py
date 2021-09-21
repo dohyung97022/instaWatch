@@ -1,4 +1,3 @@
-import boto3
 from ..aws import AWS
 from .instance import Instance
 
@@ -13,7 +12,7 @@ class EC2:
 
     @classmethod
     def create_instance(cls, name: str) -> Instance:
-        ec2 = boto3.resource('ec2', region_name=cls.region)
+        ec2 = AWS.session.resource('ec2', region_name=cls.region)
         instances = ec2.create_instances(
             ImageId=cls.image_id,
             KeyName=cls.key,
