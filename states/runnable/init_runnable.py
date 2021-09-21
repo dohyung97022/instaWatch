@@ -1,6 +1,7 @@
 from ..Active import Active, State
 from modules.subprocess import sub_process
 from modules.subprocess.classes import firefox, ssh, registry
+from modules.aws.classes.ec2 import EC2
 
 
 def execute_firefox(profile: str):
@@ -24,11 +25,21 @@ def set_proxy_server():
 
 
 def run_init():
+    instance = EC2.create_instance('vpc')
+    instance.wait_until_running()
+    instance.reload()
+    ip = instance.get_ip()
+
     processes = []
     processes.append(execute_firefox('1'))
-    processes.append(connect_ssh('3.35.131.60'))
-    processes.append(set_proxy_enable(True))
-    processes.append(set_proxy_server())
+
+    ssh_processes = []
+    ssh_processes.append(connect_ssh(ip))
+    ssh_processes.append(set_proxy_enable(True))
+    ssh_processes.append(set_proxy_server())
+
+    for ssh_process in ssh_processes:
+        sub_process.kill(ssh_process)
 
     for process in processes:
         sub_process.kill(process)
