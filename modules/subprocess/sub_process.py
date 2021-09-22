@@ -6,7 +6,11 @@ def start(cmd: list[str]) -> Popen:
 
 
 def read(subprocess: Popen) -> str:
-    return subprocess.stdout.readline().decode('utf-8').strip()
+    result = ''
+    lines = subprocess.stdout.readlines()
+    for line in lines:
+        result += line.decode('utf-8').strip() + '\n'
+    return result
 
 
 def kill(subprocess: Popen):
