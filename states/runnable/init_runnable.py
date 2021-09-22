@@ -4,8 +4,6 @@ from modules.subprocess.classes import firefox, ssh, registry, set_default_brows
 from modules.aws.classes.ec2 import EC2
 
 
-def execute_firefox(profile: str):
-    return sub_process.start(firefox.execute_cmd(profile))
 
 def execute_firefox(profile: str, url: str):
     return sub_process.start(firefox.execute_cmd(profile, url))
@@ -52,10 +50,7 @@ def set_default_browser_chrome():
 
 
 def run_init():
-    instance = EC2.create_instance('vpc')
-    instance.wait_until_running()
-    instance.reload()
-    ip = instance.get_ip()
+    Active.state = State.init
 
     processes = []
     processes.append(execute_firefox('1'))
