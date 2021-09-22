@@ -4,9 +4,8 @@ from modules.subprocess.classes import firefox, ssh, registry, set_default_brows
 from modules.aws.classes.ec2 import EC2
 
 
-def execute_firefox(profile: str):
-    return sub_process.start(firefox.execute_cmd(profile))
-
+def execute_firefox(profile: str, url: str):
+    return sub_process.start(firefox.execute_cmd(profile, url))
 
 
 def connect_ssh(ip: str, retry: int = 50):
@@ -50,23 +49,22 @@ def set_default_browser_chrome():
 
 
 def run_init():
-    instance = EC2.create_instance('vpc')
-    instance.wait_until_running()
-    instance.reload()
-    ip = instance.get_ip()
+    Active.state = State.init
 
-    processes = []
-    processes.append(execute_firefox('1'))
+    Active.processes.append(set_proxy_enable(False))
+    # TODO : instagram 계정으로부터 루프 수 가져오기
+    Active.loop = 10
 
-    ssh_processes = []
-    ssh_processes.append(connect_ssh(ip))
-    ssh_processes.append(set_proxy_enable(True))
-    ssh_processes.append(set_proxy_server())
+    Active.instance = EC2.create_instance('vpc')
+    Active.instance.wait_until_running()
+    Active.instance.reload()
+    ip = Active.instance.get_ip()
 
-    for ssh_process in ssh_processes:
-        sub_process.kill(ssh_process)
-
-    for process in processes:
-        sub_process.kill(process)
+    Active.processes.append(connect_ssh(ip))
+    Active.processes.append(set_proxy_enable(True))
+    Active.processes.append(set_proxy_server())
+    Active.processes.append(set_default_browser_firefox())
+    # TODO : instagram 계정으로부터 firefox profile 가져오기
+    Active.processes.append(execute_firefox('1', 'https://api.ipify.org'))
 
     Active.state = State.trigger
