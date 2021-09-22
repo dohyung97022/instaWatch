@@ -2,6 +2,10 @@ from ..Active import Active, State
 from modules.subprocess import sub_process
 from modules.subprocess.classes import firefox, ssh, registry, set_default_browser
 from modules.aws.classes.ec2 import EC2
+from modules.SQLAlchemy.service import setting_service
+from modules.SQLAlchemy.model.setting import Type
+from modules.SQLAlchemy.service import account_service
+from datetime import datetime
 
 
 def execute_firefox(profile: str, url: str):
@@ -51,9 +55,13 @@ def set_default_browser_chrome():
 def run_init():
     Active.state = State.init
 
-    Active.processes.append(set_proxy_enable(False))
-    # TODO : instagram 계정으로부터 루프 수 가져오기
-    Active.loop = 10
+    Active.settings = setting_service.find_by_type(Type.instagram)
+    Active.account = account_service.find_by_loop_ran_at_before(datetime.now() - Active.settings.account_run_interval)
+    if Active.account is None:
+        Active.loop = 0
+        return
+    Active.loop = Active.account.loop
+    account_service.update_loop_ran_at(datetime.now(), Active.account)
 
     Active.instance = EC2.create_instance('vpc')
     Active.instance.wait_until_running()
@@ -64,7 +72,6 @@ def run_init():
     Active.processes.append(set_proxy_enable(True))
     Active.processes.append(set_proxy_server())
     Active.processes.append(set_default_browser_firefox())
-    # TODO : instagram 계정으로부터 firefox profile 가져오기
-    Active.processes.append(execute_firefox('1', 'https://api.ipify.org'))
+    Active.processes.append(execute_firefox(str(Active.account.id), 'https://api.ipify.org'))
 
     Active.state = State.trigger
