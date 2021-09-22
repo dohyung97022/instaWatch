@@ -7,6 +7,7 @@ class State(enum.Enum):
     event = 'event'
     action = 'action'
     check = 'check'
+    exit = 'exit'
 
 
 class Active:
