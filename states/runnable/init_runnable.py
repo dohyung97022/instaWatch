@@ -7,6 +7,8 @@ from modules.aws.classes.ec2 import EC2
 def execute_firefox(profile: str):
     return sub_process.start(firefox.execute_cmd(profile))
 
+def execute_firefox(profile: str, url: str):
+    return sub_process.start(firefox.execute_cmd(profile, url))
 
 
 def connect_ssh(ip: str, retry: int = 50):
