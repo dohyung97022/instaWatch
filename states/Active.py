@@ -12,7 +12,8 @@ class State(enum.Enum):
 
 class Active:
     state = State.init
-    account = ''
+    settings = None
+    account = None
     loop = 0
     instance = None
     triggers = []
@@ -23,7 +24,8 @@ class Active:
     @classmethod
     def reset(cls):
         cls.state = State.init
-        cls.account = ''
+        cls.settings = None
+        cls.account = None
         cls.loop = 0
         cls.instance = None
         cls.triggers = []
