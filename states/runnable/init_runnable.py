@@ -1,6 +1,6 @@
 from ..Active import Active, State
 from modules.subprocess import sub_process
-from modules.subprocess.classes import firefox, ssh, registry
+from modules.subprocess.classes import firefox, ssh, registry, set_default_browser
 from modules.aws.classes.ec2 import EC2
 
 
@@ -22,6 +22,21 @@ def set_proxy_enable(enable: bool):
 
 def set_proxy_server():
     return sub_process.start(registry.InternetSetting.set_proxy_server_cmd())
+
+
+def set_default_browser_firefox():
+    cmd = set_default_browser.read_all_browser_info_cmd()
+    process = sub_process.start(cmd)
+    all_browser_info = sub_process.read(process)
+    sub_process.kill(process)
+    firefox_hklm = set_default_browser.read_firefox_hklm_cmd(all_browser_info)
+    cmd = set_default_browser.set_default_browser_cmd(firefox_hklm)
+    return sub_process.start(cmd)
+
+
+def set_default_browser_chrome():
+    cmd = set_default_browser.set_default_browser_cmd(set_default_browser.chrome_hklm)
+    return sub_process.start(cmd)
 
 
 def run_init():
