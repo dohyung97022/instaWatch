@@ -7,10 +7,22 @@ def start(cmd: list[str]) -> Popen:
 
 def read(subprocess: Popen) -> str:
     result = ''
-    lines = subprocess.stdout.readlines()
-    for line in lines:
-        result += line.decode('utf-8').strip() + '\n'
+    if is_finished(subprocess):
+        lines = subprocess.stdout.readlines()
+        for line in lines:
+            result += line.decode('utf-8').strip() + '\n'
+    else:
+        result = subprocess.stdout.readline().decode('utf-8').strip()
     return result
+
+
+def is_finished(subprocess: Popen) -> bool:
+    return subprocess.poll() is not None
+
+
+def wait_until_finished(subprocess: Popen):
+    while not is_finished(subprocess):
+        continue
 
 
 def kill(subprocess: Popen):
