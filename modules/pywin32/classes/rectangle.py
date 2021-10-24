@@ -1,4 +1,5 @@
 import win32gui
+from .color import Color
 
 
 class Rectangle:
@@ -6,9 +7,9 @@ class Rectangle:
     y: int
     x1: int
     y1: int
-    color: None
+    color: Color.red
 
-    def __init__(self, x: int, y: int, x1: int, y1: int, color):
+    def __init__(self, x: int, y: int, x1: int, y1: int, color: Color = Color.red):
         self.x = x
         self.y = y
         self.x1 = x1
