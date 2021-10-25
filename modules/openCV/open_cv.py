@@ -1,6 +1,6 @@
 import cv2
 import numpy
-from .classes.rectangle import Rectangle
+from modules.common.classes.rectangle import Rectangle
 
 DETECT_DEFAULT_THRESHOLD = 0.9
 
