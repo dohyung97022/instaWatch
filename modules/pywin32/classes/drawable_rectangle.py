@@ -1,19 +1,13 @@
 import win32gui
 from .color import Color
+from modules.common.classes.rectangle import Rectangle
 
 
-class Rectangle:
-    x: int
-    y: int
-    x1: int
-    y1: int
+class DrawableRectangle(Rectangle):
     color: Color.red
 
-    def __init__(self, x: int, y: int, x1: int, y1: int, color: Color = Color.red):
-        self.x = x
-        self.y = y
-        self.x1 = x1
-        self.y1 = y1
+    def __init__(self, rectangle: Rectangle, color: Color = Color.red):
+        Rectangle.__init__(self, rectangle.x, rectangle.y, rectangle.x1, rectangle.y1)
         self.color = color
 
     def draw(self, hdc):

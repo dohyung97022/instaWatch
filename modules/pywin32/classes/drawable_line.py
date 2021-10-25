@@ -2,7 +2,7 @@ import win32gui
 from .color import Color
 
 
-class Line:
+class DrawableLine:
     x: int
     y: int
     x1: int
