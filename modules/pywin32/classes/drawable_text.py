@@ -3,7 +3,7 @@ import win32con
 import win32ui
 
 
-class Text:
+class DrawableText:
     x: int
     y: int
     size: int = 10

@@ -1,5 +1,5 @@
 from pynput import mouse
-from modules.pynput.classes.rectangle import Rectangle
+from modules.common.classes.rectangle import Rectangle
 from modules.pynput.classes.point import Point
 
 
